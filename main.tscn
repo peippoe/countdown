@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://b4jjsnhqrig64"]
+
+[ext_resource type="PackedScene" uid="uid://c8ak77dijp28l" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://80grnu3vppdp" path="res://Enemies/flydude.tscn" id="2_0xm2m"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0xm2m"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_h2yge"]
+sky_material = SubResource("ProceduralSkyMaterial_0xm2m")
+
+[sub_resource type="Environment" id="Environment_1bvp3"]
+background_mode = 2
+sky = SubResource("Sky_h2yge")
+glow_enabled = true
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_i3pqv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4flbx"]
+albedo_texture = SubResource("PlaceholderTexture2D_i3pqv")
+
+[node name="Main" type="Node3D" unique_id=476569488]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1509949696]
+environment = SubResource("Environment_1bvp3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=570491861]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." unique_id=933761945 instance=ExtResource("1_ig7tw")]
+floor_snap_length = 0.71
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=326457416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.572876, -1, 6.0927734)
+use_collision = true
+size = Vector3(70.23657, 1, 63.472656)
+material = SubResource("StandardMaterial3D_4flbx")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1738180896]
+transform = Transform3D(0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0, 0, 1, -25.511993, -5.022419, -15.487793)
+use_collision = true
+size = Vector3(23.496399, 19, 20.311523)
+material = SubResource("StandardMaterial3D_4flbx")
+
+[node name="Flydude" parent="." unique_id=1489780883 instance=ExtResource("2_0xm2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.163753, 10.037866, 3.7897358)

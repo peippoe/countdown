@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://80grnu3vppdp"]
+
+[ext_resource type="Script" uid="uid://duaug76m5umxc" path="res://Enemies/flydude.gd" id="1_r06o4"]
+[ext_resource type="PackedScene" uid="uid://4g8qx4k43iu1" path="res://Components/health_component.tscn" id="2_dswyt"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r7ajf"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_r7ajf"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_r06o4"]
+radius = 0.19
+height = 0.37
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dswyt"]
+
+[node name="Flydude" type="CharacterBody3D" unique_id=1489780883]
+script = ExtResource("1_r06o4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=548419330]
+shape = SubResource("SphereShape3D_r7ajf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1491675203]
+mesh = SubResource("SphereMesh_r7ajf")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1415503571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.40783143)
+mesh = SubResource("SphereMesh_r06o4")
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=1580619817]
+autostart = true
+
+[node name="HealthComponent" parent="." unique_id=79792297 instance=ExtResource("2_dswyt")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HealthComponent" unique_id=604116870]
+shape = SubResource("SphereShape3D_dswyt")
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

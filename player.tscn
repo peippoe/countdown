@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://c8ak77dijp28l"]
+
+[ext_resource type="Script" uid="uid://p7jyyq4hbyit" path="res://player.gd" id="1_4flbx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r7ajf"]
+radius = 0.3
+
+[node name="Player" type="CharacterBody3D" unique_id=933761945 groups=["player"]]
+script = ExtResource("1_4flbx")
+
+[node name="JumpBufferTimer" type="Timer" parent="." unique_id=356244921]
+wait_time = 0.09
+one_shot = true
+
+[node name="CoyoteTimeTimer" type="Timer" parent="." unique_id=1970610742]
+wait_time = 0.16
+one_shot = true
+
+[node name="Head" type="Node3D" parent="." unique_id=682293012]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+
+[node name="Camera" type="Camera3D" parent="Head" unique_id=1268823101]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=660270673]
+shape = SubResource("CapsuleShape3D_r7ajf")
+
+[node name="UI" type="Control" parent="." unique_id=1726448290]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Health" type="ColorRect" parent="UI" unique_id=878105099]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 636.0
+offset_right = -877.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Health2" type="ColorRect" parent="UI/Health" unique_id=827655959]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(9.62615e-06, 0.97642595, 0.6651834, 1)
+
+[node name="Crosshair" type="Control" parent="UI" unique_id=1991215809]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/Crosshair" unique_id=545840183]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 548.0
+offset_top = 303.0
+offset_right = 564.0
+offset_bottom = 305.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect2" type="ColorRect" parent="UI/Crosshair" unique_id=1972534008]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 555.0
+offset_top = 296.0
+offset_right = 557.0
+offset_bottom = 312.0
+grow_horizontal = 2
+grow_vertical = 2
