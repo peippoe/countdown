@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://dka0x8xqsdlea"]
+
+[ext_resource type="FontFile" uid="uid://xn5rjf3f1c2c" path="res://UI/pirkkala.ttf" id="1_mg8jf"]
+
+[resource]
+default_font = ExtResource("1_mg8jf")

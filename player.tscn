@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c8ak77dijp28l"]
 
 [ext_resource type="Script" uid="uid://p7jyyq4hbyit" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://cnkaopdw82ulg" path="res://ui.gd" id="2_onrkg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r7ajf"]
 radius = 0.3
@@ -33,6 +34,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_onrkg")
 
 [node name="Health" type="ColorRect" parent="UI" unique_id=878105099]
 layout_mode = 1
@@ -66,9 +68,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 548.0
+offset_left = 547.0
 offset_top = 303.0
-offset_right = 564.0
+offset_right = 565.0
 offset_bottom = 305.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -81,8 +83,91 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 555.0
-offset_top = 296.0
+offset_top = 295.0
 offset_right = 557.0
-offset_bottom = 312.0
+offset_bottom = 313.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PauseScreen" type="Control" parent="UI" unique_id=761866329]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="UI/PauseScreen" unique_id=1735842641]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseScreen" unique_id=2008626373]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/PauseScreen/VBoxContainer" unique_id=2117972426]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[font_size=20][wave freq=2 amp=100]paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PauseScreen/VBoxContainer" unique_id=55516910]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/PauseScreen/VBoxContainer/HBoxContainer" unique_id=2075714173]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "sensitivity"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="UI/PauseScreen/VBoxContainer/HBoxContainer" unique_id=2146068671]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "1.0"
+
+[node name="Control" type="Control" parent="UI/PauseScreen/VBoxContainer" unique_id=643467549]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LoseScreen" type="Control" parent="UI" unique_id=1067599197]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="UI/LoseScreen" unique_id=281931734]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/LoseScreen" unique_id=1377554415]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[font_size=20][wave freq=2 amp=100]you died lol"
+horizontal_alignment = 1
+vertical_alignment = 1

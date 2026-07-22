@@ -27,10 +27,14 @@ var health = max_health:
 	set(value):
 		health = value
 		$UI/Health/Health2.scale.x = health / max_health
+		
+		if health <= 0:
+			$UI/LoseScreen.show()
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 var health_drain = 1
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		head.rotate_y(-event.screen_relative.x * 0.001 * SENS)
 		cam.rotate_x(-event.screen_relative.y * 0.001 * SENS)
 	
@@ -52,7 +56,7 @@ func shoot():
 	if !result: return
 	
 	var coll = result.collider
-	print(coll)
+	#print(coll)
 	if coll.name == "HealthComponent":
 		coll.change_health(-40)
 
