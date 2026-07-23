@@ -8,8 +8,9 @@ var master_volume: float = 1.0:
 		AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"Master"), master_volume)
 
 
-@onready var coins_label = get_tree().get_first_node_in_group("player").get_node("UI/Coins")
+
 # stats
+var player
 var time_elapsed: float = 0.0
 var coins: int = 0:
 	set(value):
@@ -19,6 +20,7 @@ var coins: int = 0:
 		elif sign(diff) == 1:
 			Util.play_sound("res://coinget.mp3", null, Vector2(1.25, 1.3))
 		
+		var coins_label = GameManager.player.get_node("UI/Coins")
 		if diff:
 			coins_label.modulate = Color.YELLOW
 			var tween = get_tree().create_tween()

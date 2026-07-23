@@ -23,6 +23,9 @@ var sliding = false
 
 @onready var cam: Camera3D = %Camera
 @onready var head: Node3D = %Head
+@onready var coll: CollisionShape3D = $CollisionShape3D
+@export var HEIGHT: float = 2.0
+@export var SLIDE_HEIGHT: float = 0.6
 
 @export var max_health = 100
 var health = max_health:
@@ -34,7 +37,7 @@ var health = max_health:
 			$UI/LoseScreen.show()
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			get_tree().paused = true
-var health_drain = 1
+var health_drain = 10
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -91,6 +94,7 @@ func shoot():
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	GameManager.player = self
 
 func _process(delta: float) -> void:
 	health -= health_drain * delta
@@ -138,26 +142,36 @@ func _physics_process(delta: float) -> void:
 	if not boost_dir:
 		boost_dir = (-head.global_basis.z * quat).normalized()
 	
+	
+	
+	
+	
 	if grounded:
-		if !$SlideBufferTimer.is_stopped() and not sliding and $SlideCooldown.is_stopped():
-			sliding = true
-			$CollisionShape3D.shape.height = 0.6
+		if !$SlideBufferTimer.is_stopped() and $SlideCooldown.is_stopped():
+			var result = Util.raycast(global_position, global_position - Vector3.UP*6, 1, [self])
+			if result: global_position.y = result.position.y + SLIDE_HEIGHT / 2
 			velocity = boost_dir * (get_horizontal_velocity().length() + SLIDE_BOOST)
 			$SlideBufferTimer.stop()
 			$SlideCooldown.start()
-	if not Input.is_action_pressed("slide"):
-		if sliding:
-			sliding = false
-			$CollisionShape3D.shape.height = 2	
-			if grounded: position.y += 0.7
-	%Head.position.y = 0.8 * $CollisionShape3D.shape.height/2
+	
+	if Input.is_action_pressed("slide"):
+		sliding = true
+		coll.shape.height = SLIDE_HEIGHT
+	elif sliding:
+		sliding = false
+		coll.shape.height = HEIGHT
+		if grounded: position.y += (HEIGHT-SLIDE_HEIGHT) / 2
+	%Head.position.y = 0.7 * coll.shape.height/2
+	
+	
+	
 	
 	
 	
 	accel = GROUND_ACCEL
 	if not grounded:
 		accel = AIR_ACCEL
-		velocity.y -= 15 * delta # gravity
+		velocity.y -= 15.5 * delta # gravity
 	if sliding:
 		accel = AIR_ACCEL
 	

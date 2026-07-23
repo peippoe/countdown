@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cvxntqww0dmkn"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r7ajf"]
+
+[node name="HealthDrop" type="Area3D" unique_id=1122042129]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1610821119]
+shape = SubResource("SphereShape3D_r7ajf")

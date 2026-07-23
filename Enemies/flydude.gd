@@ -2,11 +2,11 @@ extends CharacterBody3D
 
 
 
-@onready var player = get_tree().get_first_node_in_group("player")
+
 
 func _physics_process(delta: float) -> void:
 	
-	var to_player = player.global_position - global_position
+	var to_player = GameManager.player.global_position - global_position
 	
 	
 	

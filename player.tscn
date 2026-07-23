@@ -20,7 +20,7 @@ wait_time = 0.09
 one_shot = true
 
 [node name="SlideBufferTimer" type="Timer" parent="." unique_id=1489310846]
-wait_time = 0.14
+wait_time = 0.18
 one_shot = true
 
 [node name="SlideCooldown" type="Timer" parent="." unique_id=1294635691]
@@ -28,12 +28,12 @@ wait_time = 0.2
 one_shot = true
 
 [node name="CoyoteTimeTimer" type="Timer" parent="." unique_id=1970610742]
-wait_time = 0.16
+wait_time = 0.2
 one_shot = true
 
 [node name="Head" type="Node3D" parent="." unique_id=682293012]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="Camera" type="Camera3D" parent="Head" unique_id=1268823101]
 unique_name_in_owner = true

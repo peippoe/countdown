@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://c10ei0ujy422g"]
 
 [ext_resource type="PackedScene" uid="uid://d3k420wsgddta" path="res://Components/interact_component.tscn" id="1_eumkw"]
+[ext_resource type="Script" uid="uid://dephik4qe0pji" path="res://Objects/teleporter.gd" id="1_kgtc4"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_r7ajf"]
 height = 1.0
 
 [node name="Teleporter" type="Node3D" unique_id=1715898867]
+script = ExtResource("1_kgtc4")
 
 [node name="InteractComponent" parent="." unique_id=525690429 instance=ExtResource("1_eumkw")]
 
