@@ -30,7 +30,7 @@ var sliding = false
 @export var max_health = 100
 var health = max_health:
 	set(value):
-		health = value
+		health = minf(value, max_health)
 		$UI/Health/Health2.scale.x = health / max_health
 		
 		if health <= 0:
@@ -76,21 +76,7 @@ func shoot():
 	
 	if result: to = result.position
 	
-	var new_mesh = MeshInstance3D.new()
-	get_tree().root.add_child(new_mesh)
-	
-	var draw_mesh = ImmediateMesh.new()
-	new_mesh.mesh = draw_mesh
-	
-	var mat = load("res://bullet_mat.tres")
-	draw_mesh.surface_begin(Mesh.PRIMITIVE_LINES, mat)
-	draw_mesh.surface_add_vertex(from + cam.global_basis.x*0.5 + cam.global_basis.y*-0.5)
-	draw_mesh.surface_add_vertex(to)
-	draw_mesh.surface_end()
-	
-	await get_tree().create_timer(1).timeout
-	
-	new_mesh.queue_free()
+	Util.spawn_trail(from + cam.global_basis.x*0.5 + cam.global_basis.y*-0.5, to)
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -134,7 +120,7 @@ func _physics_process(delta: float) -> void:
 	var wish_dir := head.global_basis * Vector3(input_dir.x, 0, input_dir.y).normalized()
 	
 	var quat = Quaternion.IDENTITY
-	if grounded:
+	if is_on_floor():
 		quat = Quaternion(Vector3.UP, get_floor_normal())
 		wish_dir = quat * wish_dir
 	
@@ -177,7 +163,8 @@ func _physics_process(delta: float) -> void:
 	
 	if can_jump and !$JumpBufferTimer.is_stopped():
 		velocity.y = maxf(velocity.y, 0)+JUMP_VELOCITY
-		velocity += boost_dir * JUMP_BOOST
+		if wish_dir:
+			velocity += boost_dir * JUMP_BOOST
 		grounded = false
 		$CoyoteTimeTimer.stop()
 		$JumpBufferTimer.stop()
@@ -186,6 +173,8 @@ func _physics_process(delta: float) -> void:
 	accelerate(wish_dir, speed, delta)
 	if grounded and !sliding:
 		apply_friction(delta)
+	#if is_on_floor():
+		#velocity = quat * velocity
 	
 	
 	move_and_slide()

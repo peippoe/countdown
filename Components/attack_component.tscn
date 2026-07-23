@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://blnsc8lbv0vwx"]
+
+[ext_resource type="Script" uid="uid://dgintsn1sh44l" path="res://Components/attack_component.gd" id="1_h20kn"]
+
+[node name="AttackComponent" type="Node3D" unique_id=1414617796]
+script = ExtResource("1_h20kn")
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=848758229]
+autostart = true
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://p7jyyq4hbyit" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cnkaopdw82ulg" path="res://ui.gd" id="2_onrkg"]
-[ext_resource type="AudioStream" uid="uid://b0vlg42a0jwl" path="res://coinget.mp3" id="3_i3pqv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r7ajf"]
 radius = 0.3
@@ -13,6 +12,7 @@ radius = 0.3
 radius = 4.0
 
 [node name="Player" type="CharacterBody3D" unique_id=933761945 groups=["player"]]
+floor_snap_length = 0.5
 script = ExtResource("1_4flbx")
 
 [node name="JumpBufferTimer" type="Timer" parent="." unique_id=356244921]
@@ -271,10 +271,6 @@ monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea" unique_id=124335921]
 shape = SubResource("SphereShape3D_r7ajf")
-
-[node name="Coinget" type="AudioStreamPlayer" parent="InteractArea" unique_id=337792842]
-stream = ExtResource("3_i3pqv")
-pitch_scale = 1.25
 
 [connection signal="text_submitted" from="UI/PauseScreen/VBoxContainer/HBoxContainer/LineEdit" to="UI" method="_on_line_edit_text_submitted"]
 [connection signal="value_changed" from="UI/PauseScreen/VBoxContainer/HBoxContainer2/HSlider" to="UI" method="_on_h_slider_value_changed"]
