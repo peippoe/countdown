@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://blnsc8lbv0vwx" path="res://Components/attack_component.tscn" id="2_yqmsm"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_r7ajf"]
-size = Vector3(1, 0.42, 0.755)
+size = Vector3(0.5361328, 0.845459, 0.755)
 
 [node name="Drone" type="CharacterBody3D" unique_id=392693863]
 script = ExtResource("1_ha3x2")
@@ -13,3 +13,4 @@ script = ExtResource("1_ha3x2")
 mesh = SubResource("BoxMesh_r7ajf")
 
 [node name="AttackComponent" parent="." unique_id=1414617796 instance=ExtResource("2_yqmsm")]
+attack_cooldown = 0.2

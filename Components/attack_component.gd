@@ -3,9 +3,13 @@ extends Node3D
 @export var projectile: PackedScene = null
 @export var projectile_speed: float = 30.0
 @export var knockback: float = 20.0
-@export var damage: float = 30.0
+@export var damage: float = 1.0
+@export var attack_cooldown: float = 1.0
 
 signal attacked
+
+func _ready() -> void:
+	$AttackTimer.start(attack_cooldown)
 
 func _on_attack_timer_timeout() -> void:
 	

@@ -65,7 +65,7 @@ func shoot():
 	
 	var from = cam.global_position
 	var to = from + -cam.global_basis.z * 100
-	var result = Util.raycast(from, to, 2, self, true)
+	var result = Util.raycast(from, to, 3, self, true)
 	if result:
 		var coll = result.collider
 		#print(coll)
@@ -74,9 +74,10 @@ func shoot():
 	
 	
 	
-	if result: to = result.position
+	if result:
+		to = result.position
 	
-	Util.spawn_trail(from + cam.global_basis.x*0.5 + cam.global_basis.y*-0.5, to)
+	Util.spawn_trail(from + cam.global_basis.x*0.5 + cam.global_basis.y*-0.5 + cam.global_basis.z*-1, to)
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -120,8 +121,10 @@ func _physics_process(delta: float) -> void:
 	var wish_dir := head.global_basis * Vector3(input_dir.x, 0, input_dir.y).normalized()
 	
 	var quat = Quaternion.IDENTITY
-	if is_on_floor():
-		quat = Quaternion(Vector3.UP, get_floor_normal())
+	var normal = get_floor_normal()
+	if not normal: normal = Vector3.UP
+	if grounded:
+		quat = Quaternion(Vector3.UP, normal)
 		wish_dir = quat * wish_dir
 	
 	var boost_dir = wish_dir

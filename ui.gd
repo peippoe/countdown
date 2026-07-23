@@ -20,8 +20,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 var current_coins = 0
 func _process(delta: float) -> void:
-	var m = str(int(GameManager.time_elapsed / 60)).pad_zeros(2)
-	var s = str(int(GameManager.time_elapsed) % 60).pad_zeros(2)
+	var m = str(int(GameManager.elapsed_time / 60)).pad_zeros(2)
+	var s = str(int(GameManager.elapsed_time) % 60).pad_zeros(2)
 	$Timer.text = "%s:%s" % [m, s]
 	
 	current_coins = lerpf(current_coins, GameManager.coins, delta * 10)

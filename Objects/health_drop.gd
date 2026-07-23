@@ -5,7 +5,7 @@ func _physics_process(delta: float) -> void:
 	position.y -= 1 * delta
 	
 	var to_player = GameManager.player.global_position - global_position
-	global_position += to_player * delta
+	global_position += to_player * delta * 6
 
 
 func _on_body_entered(body: Node3D) -> void:

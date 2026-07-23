@@ -11,7 +11,7 @@ var master_volume: float = 1.0:
 
 # stats
 var player
-var time_elapsed: float = 0.0
+var elapsed_time: float = 0.0
 var coins: int = 0:
 	set(value):
 		var diff = value - coins
@@ -36,4 +36,4 @@ var coins: int = 0:
 		coins = value
 
 func _process(delta: float) -> void:
-	time_elapsed += delta
+	elapsed_time += delta

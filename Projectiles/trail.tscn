@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://c63epy8neru6a"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_r7ajf"]
+top_radius = 0.04
+bottom_radius = 0.04
+height = 4.0
+radial_segments = 4
+rings = 2
+
+[node name="Trail" type="MeshInstance3D" unique_id=339681175]
+mesh = SubResource("CylinderMesh_r7ajf")

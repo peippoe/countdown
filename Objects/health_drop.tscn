@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://duxhsldm7dqrj" path="res://ParticlePack/star_07.png" id="2_l7sgr"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_r7ajf"]
+radius = 1.0
 
 [sub_resource type="Curve" id="Curve_5vw27"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.8742857, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

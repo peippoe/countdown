@@ -8,6 +8,9 @@ signal died
 func change_health(change):
 	health += change
 	
+	if change <= 0:
+		Util.spawn_damage_indicator(global_position, -change)
+	
 	if health <= 0:
 		died.emit()
 		on_died()

@@ -23,7 +23,7 @@ GameManager="*uid://c4h3hxokqv5l0"
 [display]
 
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep_width"
 
 [global_group]
 
