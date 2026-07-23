@@ -6,6 +6,8 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r7ajf"]
 radius = 0.3
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onrkg"]
+
 [node name="Player" type="CharacterBody3D" unique_id=933761945 groups=["player"]]
 script = ExtResource("1_4flbx")
 
@@ -28,6 +30,7 @@ unique_name_in_owner = true
 shape = SubResource("CapsuleShape3D_r7ajf")
 
 [node name="UI" type="Control" parent="." unique_id=1726448290]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -137,7 +140,8 @@ vertical_alignment = 1
 [node name="LineEdit" type="LineEdit" parent="UI/PauseScreen/VBoxContainer/HBoxContainer" unique_id=2146068671]
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "1.0"
+theme_override_styles/focus = SubResource("StyleBoxEmpty_onrkg")
+placeholder_text = "10.0"
 
 [node name="Control" type="Control" parent="UI/PauseScreen/VBoxContainer" unique_id=643467549]
 layout_mode = 2
@@ -165,9 +169,26 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -77.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
 text = "[font_size=20][wave freq=2 amp=100]you died lol"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Button" type="Button" parent="UI/LoseScreen" unique_id=1248338294]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 392.0
+offset_top = 388.0
+offset_right = -392.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "restart"
+
+[connection signal="text_submitted" from="UI/PauseScreen/VBoxContainer/HBoxContainer/LineEdit" to="UI" method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="UI/LoseScreen/Button" to="UI" method="_on_button_pressed"]

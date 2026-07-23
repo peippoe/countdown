@@ -18,7 +18,7 @@ var grounded = true
 var can_jump = true
 
 
-var SENS = 1.0
+
 @onready var cam: Camera3D = %Camera
 @onready var head: Node3D = %Head
 
@@ -31,12 +31,13 @@ var health = max_health:
 		if health <= 0:
 			$UI/LoseScreen.show()
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			get_tree().paused = true
 var health_drain = 1
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		head.rotate_y(-event.screen_relative.x * 0.001 * SENS)
-		cam.rotate_x(-event.screen_relative.y * 0.001 * SENS)
+		head.rotate_y(-event.screen_relative.x * 0.0001 * GameManager.sensitivity)
+		cam.rotate_x(-event.screen_relative.y * 0.0001 * GameManager.sensitivity)
 	
 	
 	elif event is InputEventMouseButton:
