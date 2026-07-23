@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://c10ei0ujy422g"]
+
+[ext_resource type="PackedScene" uid="uid://d3k420wsgddta" path="res://Components/interact_component.tscn" id="1_eumkw"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_r7ajf"]
+height = 1.0
+
+[node name="Teleporter" type="Node3D" unique_id=1715898867]
+
+[node name="InteractComponent" parent="." unique_id=525690429 instance=ExtResource("1_eumkw")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1477070856]
+mesh = SubResource("CylinderMesh_r7ajf")

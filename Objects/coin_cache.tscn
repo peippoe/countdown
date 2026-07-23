@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://csgv8gh1qp0lf"]
+
+[ext_resource type="Script" uid="uid://cmqkkr5is264b" path="res://Objects/coin_cache.gd" id="1_dgq2x"]
+[ext_resource type="PackedScene" uid="uid://d3k420wsgddta" path="res://Components/interact_component.tscn" id="1_vr5ry"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_r7ajf"]
+size = Vector3(0.43359375, 0.32025146, 0.47460938)
+
+[node name="CoinCache" type="Node3D" unique_id=735611369]
+script = ExtResource("1_dgq2x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=735656893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12065375, 0)
+mesh = SubResource("BoxMesh_r7ajf")
+
+[node name="InteractComponent" parent="." unique_id=525690429 instance=ExtResource("1_vr5ry")]

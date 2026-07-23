@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://to50ohr4dulh"]
+
+[ext_resource type="Script" uid="uid://cjg48g8fsllhr" path="res://Components/drops_component.gd" id="1_jjsel"]
+
+[node name="DropsComponent" type="Node" unique_id=1130273500]
+script = ExtResource("1_jjsel")

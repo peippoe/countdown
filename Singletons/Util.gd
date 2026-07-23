@@ -22,7 +22,7 @@ func play_sound(path = "res://pew.mp3", pos = null, pitch = Vector2(0.9, 1.1)):
 
 
 
-func raycast(from, to, collision_mask = 1, exclude = [], coll_areas = false, coll_bodies = true):
+func raycast(from, to, collision_mask = 2, exclude = [], coll_areas = false, coll_bodies = true):
 	if exclude is not Array:
 		exclude = [exclude]
 	
