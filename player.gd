@@ -70,7 +70,7 @@ func shoot():
 		var coll = result.collider
 		#print(coll)
 		if coll.name == "HealthComponent":
-			coll.change_health(-40)
+			coll.change_health(-4000)
 	
 	
 	

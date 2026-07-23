@@ -6,6 +6,8 @@
 [sub_resource type="BoxMesh" id="BoxMesh_r7ajf"]
 size = Vector3(0.5361328, 0.845459, 0.755)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_r7ajf"]
+
 [node name="Drone" type="CharacterBody3D" unique_id=392693863]
 script = ExtResource("1_ha3x2")
 
@@ -14,3 +16,6 @@ mesh = SubResource("BoxMesh_r7ajf")
 
 [node name="AttackComponent" parent="." unique_id=1414617796 instance=ExtResource("2_yqmsm")]
 attack_cooldown = 0.2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1025707997]
+shape = SubResource("SphereShape3D_r7ajf")
