@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://hnu8vvl5id18" path="res://developer_textures/Dark/texture_04.png" id="7_0o66h"]
 [ext_resource type="Texture2D" uid="uid://phh05ob7vqgw" path="res://developer_textures/Dark/texture_01.png" id="8_nu1vq"]
 [ext_resource type="PackedScene" uid="uid://uhep8jj5wcfi" path="res://Models/test monke.blend" id="9_2g5ru"]
+[ext_resource type="PackedScene" uid="uid://chsmcvnxgqaln" path="res://Models/hills and stuff.blend" id="10_531v7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0xm2m"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -83,3 +84,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.572876, -1, 3.7957592)
 use_collision = true
 size = Vector3(64, 1, 64)
 material = SubResource("StandardMaterial3D_q8prx")
+
+[node name="hills and stuff" parent="World" unique_id=1627277339 instance=ExtResource("10_531v7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60.26211, 0, 13.193552)
