@@ -3,26 +3,26 @@ extends CharacterBody3D
 
 
 const JUMP_VELOCITY = 8
-const JUMP_BOOST = 8
+const JUMP_BOOST = 4
 
-const SLIDE_BOOST = 8
+const SLIDE_BOOST = 4
 
-const AIR_ACCEL = 3.0
-const GROUND_ACCEL = 20.0
+const AIR_ACCEL = 4.0
+const GROUND_ACCEL = 22.0
 var accel = GROUND_ACCEL
 
-const GROUND_FRICTION = 10.0
+const GROUND_FRICTION = 12.0
 
 
-var speed = 20.0
+var max_speed = 18.0
 
 var grounded = false
 var can_jump = false
 var sliding = false
 
 
-@onready var cam: Camera3D = %Camera
-@onready var head: Node3D = %Head
+@onready var cam: Camera3D = $Pivot/Camera
+@onready var pivot: Node3D = $Pivot
 @onready var coll: CollisionShape3D = $CollisionShape3D
 @export var HEIGHT: float = 2.0
 @export var SLIDE_HEIGHT: float = 0.6
@@ -46,11 +46,11 @@ var health = max_health:
 			$UI/LoseScreen.show()
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			get_tree().paused = true
-var health_drain = 10
+var health_drain = 1
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		head.rotate_y(-event.screen_relative.x * 0.0001 * GameManager.sensitivity)
+		pivot.rotate_y(-event.screen_relative.x * 0.0001 * GameManager.sensitivity)
 		cam.rotate_x(-event.screen_relative.y * 0.0001 * GameManager.sensitivity)
 		
 		cam.rotation.x = clampf(cam.rotation.x, -PI/2, PI/2)
@@ -63,11 +63,14 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventKey:
 		if Input.is_action_just_pressed("space"):
 			$JumpBufferTimer.start()
-		if Input.is_action_just_pressed("slide"):
+		elif Input.is_action_just_pressed("slide"):
 			$SlideBufferTimer.start()
-		if Input.is_action_just_pressed("interact"):
+		elif Input.is_action_just_pressed("interact"):
 			if interactables.size() > 0 and interactables[0].has_method("interact"):
 				interactables[0].interact()
+		elif Input.is_action_just_pressed("ctrl") and $DownshiftCooldown.is_stopped():
+			$DownshiftCooldown.start()
+			velocity.y -= 20
 
 func shoot():
 	Util.play_sound()
@@ -95,7 +98,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	health -= health_drain * delta
 	
-	if global_position.y < -200:
+	if global_position.y < -60:
 		global_position = Vector3(0, 10, 0)
 		velocity = Vector3.ZERO
 
@@ -127,7 +130,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 	var input_dir := Input.get_vector("a", "d", "w", "s")
-	var wish_dir := head.global_basis * Vector3(input_dir.x, 0, input_dir.y).normalized()
+	var wish_dir := pivot.global_basis * Vector3(input_dir.x, 0, input_dir.y).normalized()
 	
 	var quat = Quaternion.IDENTITY
 	var normal = get_floor_normal()
@@ -138,7 +141,7 @@ func _physics_process(delta: float) -> void:
 	
 	var boost_dir = wish_dir
 	if not boost_dir:
-		boost_dir = (-head.global_basis.z * quat).normalized()
+		boost_dir = (-pivot.global_basis.z * quat).normalized()
 	
 	
 	
@@ -159,7 +162,7 @@ func _physics_process(delta: float) -> void:
 		sliding = false
 		coll.shape.height = HEIGHT
 		if grounded: position.y += (HEIGHT-SLIDE_HEIGHT) / 2
-	%Head.position.y = 0.7 * coll.shape.height/2
+	cam.position.y = 0.75 * coll.shape.height/2
 	
 	
 	
@@ -169,7 +172,7 @@ func _physics_process(delta: float) -> void:
 	accel = GROUND_ACCEL
 	if not grounded:
 		accel = AIR_ACCEL
-		velocity.y -= 15.5 * delta # gravity
+		velocity.y += -16.5 * delta # gravity
 	if sliding:
 		accel = AIR_ACCEL
 	
@@ -182,7 +185,7 @@ func _physics_process(delta: float) -> void:
 		$JumpBufferTimer.stop()
 	
 	
-	accelerate(wish_dir, speed, delta)
+	accelerate(wish_dir, max_speed, delta)
 	if grounded and !sliding:
 		apply_friction(delta)
 	#if is_on_floor():
@@ -208,8 +211,10 @@ func _physics_process(delta: float) -> void:
 func accelerate(wish_dir, wish_speed, delta):
 	var current_speed = velocity.dot(wish_dir)
 	var add_speed = maxf(wish_speed - current_speed, 0)
-	
+	#print(add_speed)
 	var current_accel = accel
+	if current_speed <= 0 and current_accel == AIR_ACCEL:
+		current_accel *= 1.4
 	#if add_speed <= 0:
 		#current_accel = 0
 		#print("slow down?")

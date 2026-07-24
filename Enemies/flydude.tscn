@@ -33,6 +33,7 @@ _surfaces = [{
 }]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_dswyt"]
+radius = 0.8
 
 [node name="Flydude" type="CharacterBody3D" unique_id=1489780883]
 collision_layer = 0

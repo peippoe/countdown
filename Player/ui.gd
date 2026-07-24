@@ -26,6 +26,8 @@ func _process(delta: float) -> void:
 	
 	current_coins = lerpf(current_coins, GameManager.coins, delta * 10)
 	$Coins.text = "$%d" % current_coins
+	
+	$Debug.text = "%d fps\n%.1fm/s" % [Engine.get_frames_per_second(), GameManager.player.velocity.length()]
 
 
 
