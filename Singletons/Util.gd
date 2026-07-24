@@ -82,12 +82,13 @@ func spawn_damage_indicator(pos, damage):
 	var to_cam = GameManager.player.cam.global_position - pos
 	new_indicator.look_at_from_position(pos, pos - to_cam.normalized())
 	new_indicator.fixed_size = true
+	new_indicator.double_sided = false
+	new_indicator.no_depth_test = true
 	new_indicator.font_size = clampf(remap(damage, 0, 1000, 20, 90), 20, 90)
 	new_indicator.pixel_size = 0.001
 	new_indicator.outline_size = 6
 	
-	var color = Color(1, 1, 1, 1).lerp(Color(0, 0, 1, 1), damage/1000.0)
-	#var final_color = Color(color.r, color.g, color.b, 0)
+	
 	var string = "-"+str(int(damage))
 	if damage > 1000:
 		string += "!!"
@@ -95,13 +96,15 @@ func spawn_damage_indicator(pos, damage):
 	
 	
 	new_indicator.text = string
-	new_indicator.modulate = color
+	new_indicator.modulate = Color(1, 1, 1, 1).lerp(Color(1, 0, 1, 1), damage/1000.0)
+	new_indicator.outline_modulate = Color(0, 0, 0, 1).lerp(Color(1, 1, 1, 1), damage/1000.0)
+	
 	
 	var start_rot = new_indicator.rotation
 	var x = randf_range(-40, 40)
 	var tilt_rot = Vector3(start_rot.x, start_rot.y, -sign(x) * PI/16)
 	
-	var tween_time = 0.33 + minf(damage/2000.0, 0.5)
+	var tween_time = 0.3 + minf(damage/2000.0, 0.5)
 	var tween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUART)
 	
 	tween.set_parallel()

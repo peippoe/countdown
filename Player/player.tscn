@@ -1,15 +1,34 @@
 [gd_scene format=3 uid="uid://c8ak77dijp28l"]
 
-[ext_resource type="Script" uid="uid://p7jyyq4hbyit" path="res://player.gd" id="1_4flbx"]
-[ext_resource type="Script" uid="uid://cnkaopdw82ulg" path="res://ui.gd" id="2_onrkg"]
+[ext_resource type="Script" uid="uid://p7jyyq4hbyit" path="res://Player/player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://cnkaopdw82ulg" path="res://Player/ui.gd" id="2_btcbx"]
+[ext_resource type="Shader" uid="uid://dffhk8qveole4" path="res://Player/player.gdshader" id="2_gwnis"]
+[ext_resource type="Texture2D" uid="uid://cbujxwh5ssnly" path="res://Player/vignette.png" id="3_i3pqv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r7ajf"]
 radius = 0.3
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onrkg"]
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_r7ajf"]
 radius = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r7ajf"]
+shader = ExtResource("2_gwnis")
+shader_parameter/exposure = 1.0
+shader_parameter/contrast = 1.25
+shader_parameter/saturation = 0.9
+shader_parameter/enable_pixelate = true
+shader_parameter/pixel_factor = 2.0
+shader_parameter/enable_posterize = true
+shader_parameter/color_levels = 12.0
+shader_parameter/dither_strength = 0.75
+shader_parameter/chrom_aberration = 4.0
+shader_parameter/vignette_strength = 1.0
+shader_parameter/grain_strength = 0.2
+shader_parameter/tint_color = Vector3(0.95, 1.03, 0.9)
+shader_parameter/tint_strength = 0.15
+shader_parameter/viewport_size_override = Vector2(0, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onrkg"]
 
 [node name="Player" type="CharacterBody3D" unique_id=933761945 groups=["player"]]
 floor_snap_length = 0.5
@@ -41,6 +60,32 @@ unique_name_in_owner = true
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=660270673]
 shape = SubResource("CapsuleShape3D_r7ajf")
 
+[node name="InteractArea" type="Area3D" parent="." unique_id=194509872]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea" unique_id=124335921]
+shape = SubResource("SphereShape3D_r7ajf")
+
+[node name="Shaders" type="Control" parent="." unique_id=1952665441]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Shaders" unique_id=322170423]
+material = SubResource("ShaderMaterial_r7ajf")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="UI" type="Control" parent="." unique_id=1726448290]
 process_mode = 3
 layout_mode = 3
@@ -49,7 +94,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_onrkg")
+script = ExtResource("2_btcbx")
 
 [node name="Health" type="ColorRect" parent="UI" unique_id=878105099]
 layout_mode = 1
@@ -113,6 +158,18 @@ bbcode_enabled = true
 text = "[E] interact"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Vignette" type="TextureRect" parent="UI" unique_id=1753002042]
+modulate = Color(0.54901963, 0, 0, 0.72156864)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_i3pqv")
+expand_mode = 2
 
 [node name="Crosshair" type="Control" parent="UI" unique_id=1991215809]
 anchors_preset = 0
@@ -264,16 +321,8 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "restart"
 
-[node name="InteractArea" type="Area3D" parent="." unique_id=194509872]
-collision_layer = 0
-collision_mask = 4
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea" unique_id=124335921]
-shape = SubResource("SphereShape3D_r7ajf")
-
+[connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_area_entered"]
+[connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_area_exited"]
 [connection signal="text_submitted" from="UI/PauseScreen/VBoxContainer/HBoxContainer/LineEdit" to="UI" method="_on_line_edit_text_submitted"]
 [connection signal="value_changed" from="UI/PauseScreen/VBoxContainer/HBoxContainer2/HSlider" to="UI" method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="UI/LoseScreen/Button" to="UI" method="_on_button_pressed"]
-[connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_area_entered"]
-[connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_area_exited"]

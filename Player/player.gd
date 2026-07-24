@@ -33,6 +33,15 @@ var health = max_health:
 		health = minf(value, max_health)
 		$UI/Health/Health2.scale.x = health / max_health
 		
+		$UI/Vignette.modulate = Color(0.2, 0.0, 0.0, 0.8).lerp(Color(0, 0, 0, 0), health/max_health)
+		#var diff = value - health
+		#if diff < 0:
+			#$UI/Vignette.modulate = Color(0.6, 0.0, 0.0, 0.72)
+		#elif diff > 0:
+			#$UI/Vignette.modulate = Color(0.6, 1.0, 0.0, 0.72)
+		#var tween = get_tree().create_tween()
+		#tween.tween_property($UI/Vignette, "modulate", Color(0, 0, 0, 0), 0.1)
+		
 		if health <= 0:
 			$UI/LoseScreen.show()
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

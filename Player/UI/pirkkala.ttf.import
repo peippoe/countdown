@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://xn5rjf3f1c2c"
-path="res://.godot/imported/pirkkala.ttf-3217abb3f54885918e39dd9483ca785d.fontdata"
+path="res://.godot/imported/pirkkala.ttf-1576429a2eecae24d6f8030d2d7747e3.fontdata"
 
 [deps]
 
-source_file="res://UI/pirkkala.ttf"
-dest_files=["res://.godot/imported/pirkkala.ttf-3217abb3f54885918e39dd9483ca785d.fontdata"]
+source_file="res://Player/UI/pirkkala.ttf"
+dest_files=["res://.godot/imported/pirkkala.ttf-1576429a2eecae24d6f8030d2d7747e3.fontdata"]
 
 [params]
 
