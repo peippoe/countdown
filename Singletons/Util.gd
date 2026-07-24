@@ -40,7 +40,7 @@ func spawn_trail(from, to):
 	
 	get_tree().root.get_node("Main/World").add_child(new_mesh)
 	
-	var mat = load("res://bullet_mat.tres").duplicate()
+	var mat = new_mesh.material_override.duplicate()
 	new_mesh.material_override = mat
 	var to_from = to - from
 	var dir = to_from.normalized()
