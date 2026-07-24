@@ -17,13 +17,13 @@ func _physics_process(delta: float) -> void:
 	var to_point = point - global_position
 	#global_position += to_point * delta
 	
-	var look_target = target
-	if not look_target: look_target = GameManager.player
-	var dir = (look_target.global_position - global_position).normalized()
+	var look_pos = GameManager.player.global_position#global_position - GameManager.player.cam.global_basis.z
+	if target: look_pos = target.global_position
+	var dir = (look_pos - global_position).normalized()
 	var t: Basis = Basis.looking_at(dir)
 	basis = basis.slerp(t, 3 * delta)
 	
-	var lift = (sin(GameManager.elapsed_time) + 0.99) * 90 * delta
+	var lift = (sin(GameManager.elapsed_time) + 0.6) * 90 * delta
 	velocity.y += lift
 	
 	velocity += to_point * 20 * delta

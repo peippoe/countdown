@@ -1,25 +1,31 @@
 extends CharacterBody3D
 
 
+var max_speed = 18.0
+const AIR_ACCEL = 4.0
+const GROUND_ACCEL = 22.0
+var accel = GROUND_ACCEL
+const GROUND_FRICTION = 12.0
 
+const GRAVITY = 18.5
+const WALLRUN_GRAVITY = 5
+var gravity = GRAVITY
 const JUMP_VELOCITY = 8
+const JUMP_FLOAT = 42
+@export var jump_float_curve: Curve
 const JUMP_BOOST = 4
 
 const SLIDE_BOOST = 4
 
-const AIR_ACCEL = 4.0
-const GROUND_ACCEL = 22.0
-var accel = GROUND_ACCEL
-
-const GROUND_FRICTION = 12.0
-
-
-var max_speed = 18.0
-
 var grounded = false
 var can_jump = false
 var sliding = false
+var wallrunning = 0
+var wallruns_left = [1, 1]
 
+var input_dir: Vector2 = Vector2.ZERO
+var wish_dir: Vector3 = Vector3.ZERO
+var boost_dir: Vector3 = Vector3.ZERO
 
 @onready var cam: Camera3D = $Pivot/Camera
 @onready var pivot: Node3D = $Pivot
@@ -122,38 +128,51 @@ func get_horizontal_velocity():
 
 func _physics_process(delta: float) -> void:
 	
-	if grounded and !is_on_floor():
-		$CoyoteTimeTimer.start()
-	
+	# VARIABLE SETTING
+	if grounded and !is_on_floor(): $CoyoteTimeTimer.start()
 	grounded = is_on_floor()
 	can_jump = grounded or !$CoyoteTimeTimer.is_stopped()
 	
+	gravity = GRAVITY
+	if wallrunning != 0:
+		gravity = WALLRUN_GRAVITY
 	
-	var input_dir := Input.get_vector("a", "d", "w", "s")
-	var wish_dir := pivot.global_basis * Vector3(input_dir.x, 0, input_dir.y).normalized()
+	accel = GROUND_ACCEL
+	if not grounded:
+		accel = AIR_ACCEL
+		velocity.y += -gravity * delta
+	if sliding:
+		accel = AIR_ACCEL
 	
-	var quat = Quaternion.IDENTITY
-	var normal = get_floor_normal()
-	if not normal: normal = Vector3.UP
 	if grounded:
-		quat = Quaternion(Vector3.UP, normal)
-		wish_dir = quat * wish_dir
+		wallruns_left = [1, 1]
 	
-	var boost_dir = wish_dir
+	
+	# INPUT HANDLING
+	input_dir = Input.get_vector("a", "d", "w", "s")
+	wish_dir = pivot.global_basis * Vector3(input_dir.x, 0, input_dir.y).normalized()
+	var slope_quat = Quaternion.IDENTITY
+	if grounded:
+		var normal = get_floor_normal()
+		if not normal: normal = Vector3.UP
+		slope_quat = Quaternion(Vector3.UP, normal)
+		wish_dir = slope_quat * wish_dir
+	
+	boost_dir = wish_dir
 	if not boost_dir:
-		boost_dir = (-pivot.global_basis.z * quat).normalized()
+		boost_dir = (-pivot.global_basis.z * slope_quat).normalized()
 	
 	
-	
-	
-	
+	# SLIDE
 	if grounded:
-		if !$SlideBufferTimer.is_stopped() and $SlideCooldown.is_stopped():
+		if !$SlideBufferTimer.is_stopped():
 			var result = Util.raycast(global_position, global_position - Vector3.UP*6, 1, [self])
 			if result: global_position.y = result.position.y + SLIDE_HEIGHT / 2
-			velocity = boost_dir * (get_horizontal_velocity().length() + SLIDE_BOOST)
+			
+			if $SlideBoostCooldown.is_stopped():
+				velocity = boost_dir * (get_horizontal_velocity().length() + SLIDE_BOOST)
+				$SlideBoostCooldown.start()
 			$SlideBufferTimer.stop()
-			$SlideCooldown.start()
 	
 	if Input.is_action_pressed("slide"):
 		sliding = true
@@ -167,22 +186,41 @@ func _physics_process(delta: float) -> void:
 	
 	
 	
+	# WALLRUN
+	if $Pivot/WallrunCastLeft.is_colliding() and wallruns_left[0] or $Pivot/WallrunCastRight.is_colliding() and wallruns_left[1]:
+		$WallrunCoyoteTimeTimer.start()
+	
+	if wallrunning != 0 and Input.is_action_just_released("space"):
+		jump()
+		var conversion = 0
+		if wish_dir: conversion = 5
+		velocity = boost_dir*(get_horizontal_velocity().length() + conversion) + Vector3.UP*(velocity.y - conversion)
+		#print("WAHOO")
+	
+	if grounded or not Input.is_action_pressed("space") or $WallrunCoyoteTimeTimer.is_stopped():
+		wallrunning = 0
+		$WallrunCoyoteTimeTimer.stop()
+	elif Input.is_action_just_pressed("space"):
+		if $Pivot/WallrunCastLeft.is_colliding():
+			if wallrunning == 0:
+				wallruns_left[0] = 0
+			wallrunning = -1
+		elif $Pivot/WallrunCastRight.is_colliding():
+			if wallrunning == 0:
+				wallruns_left[1] = 0
+			wallrunning = 1
 	
 	
-	accel = GROUND_ACCEL
-	if not grounded:
-		accel = AIR_ACCEL
-		velocity.y += -16.5 * delta # gravity
-	if sliding:
-		accel = AIR_ACCEL
+	
+	
 	
 	if can_jump and !$JumpBufferTimer.is_stopped():
-		velocity.y = maxf(velocity.y, 0)+JUMP_VELOCITY
-		if wish_dir:
-			velocity += boost_dir * JUMP_BOOST
-		grounded = false
-		$CoyoteTimeTimer.stop()
-		$JumpBufferTimer.stop()
+		jump()
+	
+	# JUMP FLOAT
+	if Input.is_action_pressed("space") and !$JumpFloatTimer.is_stopped():
+		var f = JUMP_FLOAT * jump_float_curve.sample_baked(1.0 - $JumpFloatTimer.time_left / $JumpFloatTimer.wait_time)
+		velocity.y += f * delta
 	
 	
 	accelerate(wish_dir, max_speed, delta)
@@ -191,13 +229,17 @@ func _physics_process(delta: float) -> void:
 	#if is_on_floor():
 		#velocity = quat * velocity
 	
-	
 	move_and_slide()
 
 
-
-
-
+func jump():
+	velocity.y = maxf(velocity.y, 0)+JUMP_VELOCITY
+	velocity += wish_dir * JUMP_BOOST
+	grounded = false
+	$CoyoteTimeTimer.stop()
+	$JumpBufferTimer.stop()
+	$JumpFloatTimer.start()
+	$WallrunCoyoteTimeTimer.stop()
 
 
 

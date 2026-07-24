@@ -1,5 +1,6 @@
 extends Control
 
+@onready var player = $".."
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("escape") and !$LoseScreen.visible:
@@ -27,7 +28,13 @@ func _process(delta: float) -> void:
 	current_coins = lerpf(current_coins, GameManager.coins, delta * 10)
 	$Coins.text = "$%d" % current_coins
 	
-	$Debug.text = "%d fps\n%.1fm/s" % [Engine.get_frames_per_second(), GameManager.player.velocity.length()]
+	$Debug.text = "%d fps\n%.1fm/s\n%s\n%s" % [Engine.get_frames_per_second(), player.velocity.length(), player.wallrunning, player.wallruns_left]
+	
+	if $"../DownshiftCooldown".is_stopped():
+		$DownshiftCooldown.hide()
+	else:
+		$DownshiftCooldown.show()
+		$DownshiftCooldown/DownshiftCooldown2.scale.x = $"../DownshiftCooldown".time_left / $"../DownshiftCooldown".wait_time
 
 
 
