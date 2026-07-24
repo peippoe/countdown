@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://c63epy8neru6a"]
 
+[ext_resource type="Material" uid="uid://751tmbul4t5v" path="res://Projectiles/bullet_mat.tres" id="1_fxai0"]
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_r7ajf"]
-top_radius = 0.04
-bottom_radius = 0.04
+top_radius = 0.05
+bottom_radius = 0.05
 height = 4.0
 radial_segments = 4
 rings = 2
 
 [node name="Trail" type="MeshInstance3D" unique_id=339681175]
+material_override = ExtResource("1_fxai0")
 mesh = SubResource("CylinderMesh_r7ajf")

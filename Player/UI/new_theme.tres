@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://dka0x8xqsdlea"]
 
-[ext_resource type="FontFile" uid="uid://xn5rjf3f1c2c" path="res://Player/UI/pirkkala.ttf" id="1_mg8jf"]
+[ext_resource type="FontFile" uid="uid://cf22sf54krqib" path="res://Player/UI/Perfect DOS VGA 437.ttf" id="1_voofj"]
 
 [resource]
-default_font = ExtResource("1_mg8jf")
+default_font = ExtResource("1_voofj")

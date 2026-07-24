@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c8ak77dijp28l" path="res://Player/player.tscn" id="3_vj362"]
 [ext_resource type="PackedScene" uid="uid://csgv8gh1qp0lf" path="res://Objects/coin_cache.tscn" id="4_sl1s5"]
 [ext_resource type="PackedScene" uid="uid://c10ei0ujy422g" path="res://Objects/teleporter.tscn" id="5_tskcg"]
-[ext_resource type="Material" uid="uid://751tmbul4t5v" path="res://bullet_mat.tres" id="6_q54mq"]
+[ext_resource type="Material" uid="uid://751tmbul4t5v" path="res://Projectiles/bullet_mat.tres" id="6_q54mq"]
 [ext_resource type="Texture2D" uid="uid://hnu8vvl5id18" path="res://developer_textures/Dark/texture_04.png" id="7_0o66h"]
 [ext_resource type="Texture2D" uid="uid://phh05ob7vqgw" path="res://developer_textures/Dark/texture_01.png" id="8_nu1vq"]
 [ext_resource type="PackedScene" uid="uid://uhep8jj5wcfi" path="res://Models/test monke.blend" id="9_2g5ru"]
@@ -32,6 +32,9 @@ albedo_texture = ExtResource("7_0o66h")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8prx"]
 albedo_texture = ExtResource("8_nu1vq")
 uv1_scale = Vector3(16, 16, 16)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vj362"]
+albedo_texture = ExtResource("8_nu1vq")
 
 [node name="Main" type="Node3D" unique_id=476569488]
 
@@ -75,15 +78,26 @@ mesh = SubResource("BoxMesh_r7ajf")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="World" unique_id=1738180896]
 transform = Transform3D(0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0, 0, 1, -25.511993, -5.022419, -15.487793)
+visible = false
 use_collision = true
 size = Vector3(23.496399, 19, 20.311523)
 material = SubResource("StandardMaterial3D_oou0i")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="World" unique_id=326457416]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.572876, -1, 3.7957592)
+visible = false
 use_collision = true
 size = Vector3(64, 1, 64)
 material = SubResource("StandardMaterial3D_q8prx")
 
+<<<<<<< HEAD
 [node name="hills and stuff" parent="World" unique_id=1627277339 instance=ExtResource("10_531v7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60.26211, 0, 13.193552)
+=======
+[node name="hills and stuff" parent="." unique_id=1499051077 instance=ExtResource("10_531v7")]
+
+[node name="Plane" parent="hills and stuff" index="0" unique_id=898139186]
+material_override = SubResource("StandardMaterial3D_vj362")
+
+[editable path="hills and stuff"]
+>>>>>>> 9de397b31fb06367c7d459efd674b6e9fb9b42a5
