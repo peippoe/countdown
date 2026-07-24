@@ -90,14 +90,9 @@ use_collision = true
 size = Vector3(64, 1, 64)
 material = SubResource("StandardMaterial3D_q8prx")
 
-<<<<<<< HEAD
-[node name="hills and stuff" parent="World" unique_id=1627277339 instance=ExtResource("10_531v7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60.26211, 0, 13.193552)
-=======
 [node name="hills and stuff" parent="." unique_id=1499051077 instance=ExtResource("10_531v7")]
 
 [node name="Plane" parent="hills and stuff" index="0" unique_id=898139186]
 material_override = SubResource("StandardMaterial3D_vj362")
 
 [editable path="hills and stuff"]
->>>>>>> 9de397b31fb06367c7d459efd674b6e9fb9b42a5
